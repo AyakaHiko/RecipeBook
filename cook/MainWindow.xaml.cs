@@ -26,8 +26,46 @@ namespace cook
         {
             InitializeComponent();
             RecipeBox.ItemsSource = _recipes;
+            _test();
         }
         
+        private void _test(){
+            Recipe r = new Recipe
+            {
+                Name = "Salad",
+                Duration = 20,
+                Portions = 5
+            };
+            Ingredient i1 = new Ingredient
+            {
+                Name = "Tomato",
+                Count = 2,
+                Unit = "pieces"
+            };
+
+            Ingredient i2 = new Ingredient
+            {
+                Name = "Cucumber",
+                Count = 3,
+                Unit = "pieces"
+            };
+            Ingredient i3 = new Ingredient
+            {
+                Name = "Onion",
+                Count = 1,
+                Unit = "pieces"
+            };
+
+            r.Ingredients.Add(i1);
+            r.Ingredients.Add(i2);
+            r.Ingredients.Add(i3);
+            r.CookOrder.Add("Get Tomato");
+            r.CookOrder.Add("Get Cucumber");
+            r.CookOrder.Add("Get Onion");
+            r.CookOrder.Add("Mix all");
+            r.CookOrder.Add("That's all!");
+            _recipes.Add(r);
+        }
 
         private void AddBtn_OnClick(object sender, RoutedEventArgs e)
         {
@@ -35,18 +73,19 @@ namespace cook
             Edit edit = new Edit(recipe);
             if(edit.ShowDialog()==true)
                 _recipes.Add(recipe);
-
-            //todo check
         }
 
         private void EditBtn_OnClick(object sender, RoutedEventArgs e)
         {
-            //todo
+            if (RecipeBox.SelectedIndex <0) return;
+            Edit edit = new Edit(_recipes[RecipeBox.SelectedIndex]);
+            edit.ShowDialog();
         }
 
         private void DelBtn_OnClick(object sender, RoutedEventArgs e)
         {
-            //todo
+            if(RecipeBox.SelectedItem==null)return;
+            RecipeBox.Items.RemoveAt(RecipeBox.SelectedIndex);
         }
     }
 }

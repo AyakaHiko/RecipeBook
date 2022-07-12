@@ -30,7 +30,7 @@
         <UniformGrid Columns="2" x:Name="EditGrid">
             <Label>Name</Label>
             <TextBox x:Name="Title" Text="{Binding Path=Name}"/>
-            <Label>Duration</Label>
+            <Label>Duration (minutes)</Label>
             <TextBox x:Name="Duration" Text ="{Binding Path=Duration}"/>
             <Label>Portions</Label>
             <TextBox x:Name="Portions" Text ="{Binding Path=Portions}"/>
