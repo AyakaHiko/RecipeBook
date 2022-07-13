@@ -90,7 +90,7 @@ namespace cook
         private void DelBtn_OnClick(object sender, RoutedEventArgs e)
         {
             if(RecipeBox.SelectedItem==null)return;
-            RecipeBox.Items.RemoveAt(RecipeBox.SelectedIndex);
+            _recipes.RemoveAt(RecipeBox.SelectedIndex);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -118,6 +118,7 @@ namespace cook
 
         private void _load()
         {
+            if(!File.Exists(_path)) return;
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Recipe>));
             using (Stream stream = File.OpenRead(_path))
             {
