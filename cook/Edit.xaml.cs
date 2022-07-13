@@ -105,6 +105,9 @@ namespace cook
             var item = _order[OrderBox.SelectedIndex];
             _order.Remove(item);
             _order.Insert(newIndex, item);
+
+
+
         }
     }
 }

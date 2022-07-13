@@ -6,9 +6,6 @@
         xmlns:local="clr-namespace:cook"
         mc:Ignorable="d"
         Title="MainWindow" Height="500" Width="400" Closing="Window_Closing" Loaded="Window_Loaded">
-    <Window.Resources>
-        <XmlDataProvider x:Key="recipesProvider" Source="recipes.xml" XPath="Recipes"/>
-    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
