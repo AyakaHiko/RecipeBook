@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Serialization;
+using Path = System.IO.Path;
 
 namespace cook
 {
@@ -104,7 +105,7 @@ namespace cook
             _load();
 
         }
-
+        
         private string _path { get; set; } = "recipes.xml";
         private void _save()
         {
@@ -122,9 +123,16 @@ namespace cook
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Recipe>));
             using (Stream stream = File.OpenRead(_path))
             {
-                List<Recipe> recipes = xmlSerializer.Deserialize(stream) as List<Recipe>;
-                _recipes = new ObservableCollection<Recipe>(recipes);
-                RecipeBox.ItemsSource = _recipes;
+                try
+                {
+                    List<Recipe> recipes = xmlSerializer.Deserialize(stream) as List<Recipe>;
+                    _recipes = new ObservableCollection<Recipe>(recipes);
+                    RecipeBox.ItemsSource = _recipes;
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
             }
         }
     }

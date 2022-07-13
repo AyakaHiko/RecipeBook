@@ -5,13 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:cook"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="400" Closing="Window_Closing" Loaded="Window_Loaded">
+        Title="MainWindow" MaxHeight="500" MaxWidth="400" MinHeight="400" MinWidth="300"  Closing="Window_Closing" Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition MaxHeight="100"/>
         </Grid.RowDefinitions>
-        <ListBox x:Name="RecipeBox" HorizontalContentAlignment="Stretch">
+        <Canvas Grid.RowSpan="2" x:Name="BackgroundPattern" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Canvas.Resources>
+                <Style TargetType="Ellipse">
+                    <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualWidth}"></Setter>
+                </Style>
+            </Canvas.Resources>
+            <Ellipse  Width="200" Fill="#CCADD8E6" Canvas.Left="-30" Canvas.Top="50"/>
+            <Ellipse Width="150" Fill="#83D8BFD8" Opacity="25" Canvas.Left="70" Canvas.Top="-30"/>
+            <Ellipse Width="229" Fill="#87AFEEEE"  
+                     Canvas.Right="-40" Canvas.Bottom="40"/>
+            <Path  Stroke="PaleGreen" Data="M 0, 500 C 100, 100 , 200, 170,  500, 0"/>
+            <Path  Stroke="PaleGreen" Data="M 0, 500 C 80, 0 , 200, 60,  500, 60 Z" RenderTransformOrigin="0.5,0.5" Height="266" Canvas.Left="-113.298" Stretch="Fill" Canvas.Top="273.526" Width="709" >
+                <Path.RenderTransform>
+                    <TransformGroup>
+                        <RotateTransform Angle="45"/>
+                    </TransformGroup>
+                </Path.RenderTransform>
+            </Path>
+            <Path  Stroke="PaleGreen" Data="M 0, 0 C 80, 200 , 400, 30,  500, 600 "/>
+        </Canvas>
+        <ListBox x:Name="RecipeBox" HorizontalContentAlignment="Stretch" Background="Transparent">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Background" Value="Transparent"/>
@@ -87,7 +107,24 @@
         <Grid Grid.Row="1">
             <Grid.Resources>
                 <Style x:Key="DefaultBtn" TargetType="Button">
-                    <Setter Property="Margin" Value="5"/>
+                    <Setter Property="RenderTransformOrigin" Value=".5,.5" />
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Margin" Value="7"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="RenderTransform">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleX="0.9" ScaleY="0.9" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+
+                    </Style.Triggers>
                 </Style>
                 <Style x:Key="LockIfSelect" BasedOn="{StaticResource DefaultBtn}" TargetType="Button">
                     <Setter Property="IsEnabled" Value="False"></Setter>
