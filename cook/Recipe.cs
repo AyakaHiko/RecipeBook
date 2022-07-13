@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace cook
 {
-    public class Recipe 
+    public class Recipe
     {
         public string Name { get; set; }
         public decimal Duration { get; set; }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:cook"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="400">
+        Title="MainWindow" Height="500" Width="400" Closing="Window_Closing" Loaded="Window_Loaded">
     <Window.Resources>
         <XmlDataProvider x:Key="recipesProvider" Source="recipes.xml" XPath="Recipes"/>
     </Window.Resources>
@@ -15,6 +15,23 @@
             <RowDefinition MaxHeight="100"/>
         </Grid.RowDefinitions>
         <ListBox x:Name="RecipeBox" HorizontalContentAlignment="Stretch">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="OverridesDefaultStyle" Value="False"></Setter>
+                    <EventSetter Event="MouseDoubleClick" Handler="EditBtn_OnClick"/>
+
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="DarkGreen"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Border x:Name="Border" Background="GhostWhite">
@@ -36,18 +53,28 @@
                                     <RowDefinition/>
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
-                                <ListView ItemsSource="{Binding Path=Ingredient}">
+                                <ListView ItemsSource="{Binding Path=Ingredients ,UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Stretch">
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
-                                            <UniformGrid Columns="3">
-                                                <TextBlock Text="{Binding Path=Name}"/>
-                                                <TextBlock Text="{Binding Path=Count}"/>
-                                                <TextBlock Text="{Binding Path=Unit}"/>
-                                            </UniformGrid>
+                                            <Grid >
+                                                <Grid.Resources>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Margin" Value="0 0 3 0"></Setter>
+                                                    </Style>
+                                                </Grid.Resources>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="4*"/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="{Binding Path=Name}" />
+                                                <TextBlock Grid.Column="1" Text="{Binding Path=Count}" />
+                                                <TextBlock  Grid.Column ="2" Text="{Binding Path=Unit}"/>
+                                            </Grid>
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
                                 </ListView>
-                                    <ListView x:Name="Order" ItemsSource="{Binding Path=CookOrder}"  Grid.Row="1"/>
+                                <ListView x:Name="Order" ItemsSource="{Binding Path=CookOrder ,UpdateSourceTrigger=PropertyChanged}"  Grid.Row="1"/>
                             </Grid>
                         </Grid>
                     </Border>

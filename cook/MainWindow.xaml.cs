@@ -26,7 +26,7 @@ namespace cook
         {
             InitializeComponent();
             RecipeBox.ItemsSource = _recipes;
-            _test();
+
         }
         
         private void _test(){
@@ -80,12 +80,33 @@ namespace cook
             if (RecipeBox.SelectedIndex <0) return;
             Edit edit = new Edit(_recipes[RecipeBox.SelectedIndex]);
             edit.ShowDialog();
+
+            RecipeBox.ItemsSource = null;
+            RecipeBox.ItemsSource = _recipes;
         }
 
         private void DelBtn_OnClick(object sender, RoutedEventArgs e)
         {
             if(RecipeBox.SelectedItem==null)return;
             RecipeBox.Items.RemoveAt(RecipeBox.SelectedIndex);
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            //todo save
+
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            //todo load
+            _test();
+            _test();
+            _test();
+            _test();
+            _test();
+            _test();
+            _test();
         }
     }
 }
