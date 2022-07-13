@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Serialization;
 
 namespace cook
 {
@@ -94,19 +96,35 @@ namespace cook
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //todo save
-
+            _save();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //todo load
-            _test();
-            _test();
-            _test();
-            _test();
-            _test();
-            _test();
-            _test();
+            _load();
+
+        }
+
+        private string _path { get; set; } = "recipes.xml";
+        private void _save()
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Recipe>));
+            using (Stream stream = File.OpenWrite(_path))
+            {
+                List<Recipe> recipes = new List<Recipe>(_recipes);
+                xmlSerializer.Serialize(stream, recipes);
+            }
+        }
+
+        private void _load()
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Recipe>));
+            using (Stream stream = File.OpenRead(_path))
+            {
+                List<Recipe> recipes = xmlSerializer.Deserialize(stream) as List<Recipe>;
+                _recipes = new ObservableCollection<Recipe>(recipes);
+                RecipeBox.ItemsSource = _recipes;
+            }
         }
     }
 }
